@@ -79,5 +79,6 @@ data class ItineraryItem(
     @SerializedName("status") val status: Int,
     @SerializedName("proposer") val proposer: Long,
     @SerializedName("confirmPerson") val confirmPerson: Long,
-    @SerializedName("isProposer") val isProposer: Boolean
+    @SerializedName("isProposer") val isProposer: Boolean,
+    @SerializedName("price") val price: Int,
 )

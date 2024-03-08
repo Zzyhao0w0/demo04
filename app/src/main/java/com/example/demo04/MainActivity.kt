@@ -71,7 +71,9 @@ fun TestScreen() {
             Text(text = "shortToken = ${shortToken}")
 
             if (showItinerary) {
-                ItineraryListDialog()
+                ItineraryListDialog(
+                    onDismissRequest = {showItinerary = !showItinerary}
+                )
             }
 
 

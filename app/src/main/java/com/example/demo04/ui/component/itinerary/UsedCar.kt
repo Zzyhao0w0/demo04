@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.demo04.R
 import com.example.demo04.common.convertTimestampToDateString
 import com.example.demo04.models.ItineraryViewModel
@@ -43,7 +44,8 @@ import com.example.demo04.ui.component.button.HollowButton
 @Composable
 fun UsedCarItineraryList(
     topPadding: Dp,
-    ivm: ItineraryViewModel = viewModel()
+    ivm: ItineraryViewModel = viewModel(),
+    navController: NavController
 ) {
     ivm.getItineraryList()
     LazyColumn(
@@ -57,6 +59,27 @@ fun UsedCarItineraryList(
                     title = item.title,
                     status = item.status,
                     time = item.appointedTime,
+                    price = item.price
+                )
+            }
+        }
+        items(ivm.itineraryList.size) {
+            ivm.itineraryList[it].let {item->
+                ItineraryCard(
+                    title = item.title,
+                    status = item.status,
+                    time = item.appointedTime,
+                    price = item.price
+                )
+            }
+        }
+        items(ivm.itineraryList.size) {
+            ivm.itineraryList[it].let {item->
+                ItineraryCard(
+                    title = item.title,
+                    status = item.status,
+                    time = item.appointedTime,
+                    price = item.price
                 )
             }
         }
@@ -180,5 +203,5 @@ fun ItineraryCard (
 @Preview
 @Composable
 fun UsedCarItineraryListPrev() {
-    UsedCarItineraryList(0.dp)
+//    UsedCarItineraryList(0.dp, navController = n)
 }
