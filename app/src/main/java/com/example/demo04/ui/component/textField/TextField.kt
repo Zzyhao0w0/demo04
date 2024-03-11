@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:function-naming")
+
 package com.example.demo04.ui.component.textField
 
 import androidx.compose.foundation.background
@@ -30,37 +32,40 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun TextField(
     value: String,
-    onValueChange: (String)->Unit,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     label: String = "",
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     trailing: @Composable (() -> Unit)? = null,
-    trailClick: ()->Unit = {}
+    trailClick: () -> Unit = {},
 ) {
     val rectangleColor = Color(0x0A000000)
 
     var isFocused by remember { mutableStateOf(false) }
     val isShow = (isFocused && value.isNotBlank()) || value.isNotBlank()
 
-    val borderModifier = modifier.border(
-        width = 1.dp,
-        color = if (isFocused) Color(0xFF1D6FE9) else Color(0x00000000),
-        shape = RoundedCornerShape(6.dp)
-    )
+    val borderModifier =
+        modifier.border(
+            width = 1.dp,
+            color = if (isFocused) Color(0xFF1D6FE9) else Color(0x00000000),
+            shape = RoundedCornerShape(6.dp),
+        )
 
     Box(
-        modifier = borderModifier
-            .background(
-                color = rectangleColor,
-                shape = RoundedCornerShape(6.dp)
-            ),
-        contentAlignment = Alignment.CenterStart
-    ){
+        modifier =
+            borderModifier
+                .background(
+                    color = rectangleColor,
+                    shape = RoundedCornerShape(6.dp),
+                ),
+        contentAlignment = Alignment.CenterStart,
+    ) {
         Box(
-            modifier = Modifier
-                .offset(x = 8.dp)
-        ){
+            modifier =
+                Modifier
+                    .offset(x = 8.dp),
+        ) {
             Box(
                 modifier = Modifier.fillMaxWidth(),
             ) {
@@ -68,7 +73,7 @@ fun TextField(
                     Text(
                         text = label,
                         color = Color(0xFF808080),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
                 BasicTextField(
@@ -76,28 +81,30 @@ fun TextField(
                     onValueChange = onValueChange,
                     visualTransformation = visualTransformation,
                     keyboardOptions = keyboardOptions,
-                    modifier = Modifier
-                        .onFocusChanged { focusState ->
-                            isFocused = focusState.isFocused
-                        }
-                        .fillMaxWidth()
+                    modifier =
+                        Modifier
+                            .onFocusChanged { focusState ->
+                                isFocused = focusState.isFocused
+                            }
+                            .fillMaxWidth(),
                 )
             }
         }
         if (trailing != null) {
             Row(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .pointerInput(Unit) {
-                        detectTapGestures(
-                            onTap = {
-                                trailClick()
-                            }
-                        )
-                    }
-                    .fillMaxHeight(),
-                verticalAlignment = Alignment.CenterVertically
-            ){
+                modifier =
+                    Modifier
+                        .align(Alignment.CenterEnd)
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onTap = {
+                                    trailClick()
+                                },
+                            )
+                        }
+                        .fillMaxHeight(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 Spacer(modifier = Modifier.width(8.dp))
                 trailing()
                 Spacer(modifier = Modifier.width(8.dp))

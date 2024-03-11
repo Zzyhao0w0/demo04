@@ -13,55 +13,64 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-class ItineraryViewModel: ViewModel() {
-
+class ItineraryViewModel : ViewModel() {
     var itineraryList: List<ItineraryItem> by mutableStateOf(emptyList())
 
     fun getItineraryList() {
-        val result = HUtils.getRetrofit().create(ItineraryService::class.java).itineraryList(ItineraryListReq(
-            page = 1L,
-            size = 10L,
-        ))
-        result.enqueue(object :Callback<List<ItineraryItem>> {
-            override fun onResponse(
-                call: Call<List<ItineraryItem>>,
-                response: Response<List<ItineraryItem>>
-            ) {
-                when (response.code() ){
-                    200 -> {
-                        response.body()?.let {
-                            itineraryList = it
+        val result =
+            HUtils.getRetrofit().create(ItineraryService::class.java).itineraryList(
+                ItineraryListReq(
+                    page = 1L,
+                    size = 10L,
+                ),
+            )
+
+        result.enqueue(
+            object : Callback<List<ItineraryItem>> {
+                override fun onResponse(
+                    call: Call<List<ItineraryItem>>,
+                    response: Response<List<ItineraryItem>>,
+                ) {
+                    when (response.code()) {
+                        200 -> {
+                            response.body()?.let {
+                                itineraryList = it
+                            }
+                            Log.e("getItineraryList", "onResponse: $itineraryList")
                         }
-                        Log.e("getItineraryList", "onResponse: ${itineraryList}", )
-                    }
-                    400 -> {
-                        Log.e("getItineraryList", "onResponse: 400", )
-                    }
-                    404 -> {
-                        Log.e("getItineraryList", "onResponse: 404", )
-                    }
-                    494 -> {
-                        Log.e("getItineraryList", "onResponse: 494", )
+                        400 -> {
+                            Log.e("getItineraryList", "onResponse: 400")
+                        }
+                        404 -> {
+                            Log.e("getItineraryList", "onResponse: 404")
+                        }
+                        494 -> {
+                            Log.e("getItineraryList", "onResponse: 494")
+                        }
                     }
                 }
-            }
 
-            override fun onFailure(call: Call<List<ItineraryItem>>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-        })
+                override fun onFailure(
+                    call: Call<List<ItineraryItem>>,
+                    t: Throwable,
+                ) {
+                    TODO("Not yet implemented")
+                }
+            },
+        )
     }
 }
 
 interface ItineraryService {
     @POST("itinerary/list")
-    fun itineraryList(@Body params:ItineraryListReq) : Call<List<ItineraryItem>>
+    fun itineraryList(
+        @Body params: ItineraryListReq,
+    ): Call<List<ItineraryItem>>
 }
 
 data class ItineraryListReq(
     @SerializedName("page") val page: Long,
-    @SerializedName("size") val size: Long
+    @SerializedName("size") val size: Long,
 )
 
 data class ItineraryItem(

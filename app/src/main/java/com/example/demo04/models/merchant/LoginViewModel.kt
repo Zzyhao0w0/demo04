@@ -1,8 +1,7 @@
-package com.example.demo04.models
+package com.example.demo04.models.merchant
 
 import android.util.Log
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.Dp
@@ -17,17 +16,17 @@ import com.example.demo04.http.HUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.POST
 
 class LoginViewModel : ViewModel() {
-
     var clickCaptcha: ClickCaptcha? by mutableStateOf(null)
-
     var clickPosition: List<Pair<Float, Float>> by mutableStateOf(emptyList())
 
     var key: ClickCaptchaKey? by mutableStateOf(null)
-    var keyTime by mutableLongStateOf(System.currentTimeMillis())
+    var keyTime by mutableStateOf(System.currentTimeMillis())
+    var phoneCodeId by mutableStateOf(0)
+
+    fun sendPhoneCode(phone: String) {
+    }
 
     fun getClickCaptcha() {
         val result = HUtils.getRetrofit().create(ClickCaptchaService::class.java).clickCaptchaGenerate()
@@ -39,6 +38,7 @@ class LoginViewModel : ViewModel() {
                 ) {
                     clickCaptcha = response.body()
                     Log.e("getClickCaptchaService", "resp : $clickCaptcha")
+                    Log.e("getClickCaptchaService", "resp : ${response.code()}")
                 }
 
                 override fun onFailure(
@@ -96,103 +96,4 @@ class LoginViewModel : ViewModel() {
             )
         }
     }
-
-    fun loginByPassword(
-        u: String,
-        p: String,
-    ) {
-        key?.let {
-            val result =
-                HUtils.getRetrofit().create(UserService::class.java).loginWithPassword(
-                    LoginWithPasswordReq(
-                        key = it.value,
-                        phone = u,
-                        password = p,
-                    ),
-                )
-            result.enqueue(
-                object : Callback<String> {
-                    override fun onResponse(
-                        call: Call<String>,
-                        response: Response<String>,
-                    ) {
-                        Log.e("loginByPassword", "onResponse: ${response.body()}")
-                        when (response.code()) {
-                            200 -> {
-                                MUtil.kv.encode("long_token", response.body())
-                            }
-                        }
-                    }
-
-                    override fun onFailure(
-                        call: Call<String>,
-                        t: Throwable,
-                    ) {
-                        TODO("Not yet implemented")
-                    }
-                },
-            )
-        }
-    }
-
-    fun getShortToken() {
-        val longToken = MUtil.kv.getString("long_token", "")
-        if (longToken != "") {
-            val result =
-                HUtils.getRetrofit().create(UserService::class.java).shortTokenCreate(
-                    ShortTokenCreateReq(
-                        token = longToken.toString(),
-                    ),
-                )
-            result.enqueue(
-                object : Callback<ShortTokenCreateRes> {
-                    override fun onResponse(
-                        call: Call<ShortTokenCreateRes>,
-                        response: Response<ShortTokenCreateRes>,
-                    ) {
-                        when (response.code()) {
-                            200 -> {
-                                MUtil.kv.putString("short_token", response.body()?.token)
-                                Log.e("getShortToken", "onResponse: ${response.body()}")
-                            }
-                        }
-                    }
-
-                    override fun onFailure(
-                        call: Call<ShortTokenCreateRes>,
-                        t: Throwable,
-                    ) {
-                        TODO("Not yet implemented")
-                    }
-                },
-            )
-        }
-    }
 }
-
-interface UserService {
-    @POST("user/login/v1/password")
-    fun loginWithPassword(
-        @Body req: LoginWithPasswordReq,
-    ): Call<String>
-
-    @POST("user/short/token")
-    fun shortTokenCreate(
-        @Body req: ShortTokenCreateReq,
-    ): Call<ShortTokenCreateRes>
-}
-
-data class ShortTokenCreateReq(
-    val token: String,
-)
-
-data class ShortTokenCreateRes(
-    val roles: List<String>,
-    val token: String,
-)
-
-data class LoginWithPasswordReq(
-    val key: String,
-    val phone: String,
-    val password: String,
-)

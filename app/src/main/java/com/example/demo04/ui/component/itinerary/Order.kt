@@ -1,4 +1,4 @@
-package com.example.demo04.ui.component.itinerary
+@file:Suppress ("ktlint:standard:function-naming") package com.example.demo04.ui.component.itinerary
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -11,11 +11,11 @@ import androidx.navigation.NavController
 @Composable
 fun OrderItineraryList(
     topPadding: Dp,
-    navController: NavController
+    navController: NavController,
 ) {
-    Row (
-        modifier = Modifier.padding(top = topPadding)
-    ){
+    Row(
+        modifier = Modifier.padding(top = topPadding),
+    ) {
         Text(text = "order页面")
     }
 }

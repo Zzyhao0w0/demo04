@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:function-naming")
+
 package com.example.demo04
 
 import android.os.Bundle
@@ -16,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.demo04.common.MUtil
 import com.example.demo04.models.LoginViewModel
@@ -31,7 +34,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Surface(
                 modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colorScheme.background
+                color = MaterialTheme.colorScheme.background,
             ) {
                 TestScreen()
             }
@@ -41,47 +44,67 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TestScreen() {
-
     var showLogin by remember { mutableStateOf(false) }
+    var showMerchantLogin by remember { mutableStateOf(false) }
     var showItinerary by remember { mutableStateOf(false) }
-    val loginViewModel:LoginViewModel = viewModel()
+    val loginViewModel: LoginViewModel = viewModel()
 
     Surface(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
-        Column (
+        Column(
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             Button(onClick = {
                 showLogin = !showLogin
             }) {
                 Text(text = "登录")
             }
 
+            Button(
+                onClick = {
+                    showMerchantLogin = !showMerchantLogin
+                },
+            ) {
+                Text(text = "商家登录")
+            }
+
             Button(onClick = { showItinerary = !showItinerary }) {
                 Text(text = "二手车行程")
             }
-            var shortToken by remember { mutableStateOf(MUtil.kv.getString("short_token","").toString()) }
+
+            var shortToken by remember { mutableStateOf(MUtil.kv.getString("short_token", "").toString()) }
             Button(onClick = {
                 loginViewModel.getShortToken()
+                shortToken = MUtil.kv.getString("short_token", "").toString()
             }) {
                 Text(text = "刷新token")
             }
-            Text(text = "shortToken = ${shortToken}")
+
+            Text(text = "shortToken = $shortToken")
 
             if (showItinerary) {
                 ItineraryListDialog(
-                    onDismissRequest = {showItinerary = !showItinerary}
+                    onDismissRequest = { showItinerary = !showItinerary },
                 )
             }
-
-
             if (showLogin) {
                 LoginDialog(loginViewModel) {
                     showLogin = !showLogin
                 }
             }
+            if (showMerchantLogin) {
+                com.example.demo04.ui.component.login.merchant.LoginDialog(){
+                    showMerchantLogin = !showMerchantLogin
+                }
+            }
         }
     }
+}
+
+@Preview
+@Composable
+fun Preview() {
+    TestScreen()
 }

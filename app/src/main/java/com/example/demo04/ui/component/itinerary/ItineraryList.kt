@@ -1,4 +1,4 @@
-package com.example.demo04.ui.component.itinerary
+@file:Suppress ("ktlint:standard:function-naming") package com.example.demo04.ui.component.itinerary
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
@@ -16,47 +16,44 @@ import androidx.navigation.compose.rememberNavController
 import com.example.demo04.ui.component.login.TopBar
 
 @Composable
-fun ItineraryListDialog(
-    onDismissRequest: () -> Unit = {}
-) {
+fun ItineraryListDialog(onDismissRequest: () -> Unit = {}) {
     val navController = rememberNavController()
 
     Dialog(
         onDismissRequest = onDismissRequest,
-        properties = DialogProperties(
-            usePlatformDefaultWidth = false // experimental
-        ),
+        properties =
+            DialogProperties(
+                usePlatformDefaultWidth = false, // experimental
+            ),
     ) {
-        Scaffold (
-            topBar = { TopBar(title = "行程")},
+        Scaffold(
+            topBar = { TopBar(title = "行程") },
             bottomBar = {
                 BottomAppBar {
                     NavigationBarItem(
                         selected = false,
                         onClick = { navController.navigate("usedCar") },
-                        icon = { Icon(Icons.Filled.LocationOn, contentDescription = "locationOn")},
+                        icon = { Icon(Icons.Filled.LocationOn, contentDescription = "locationOn") },
                     )
                     NavigationBarItem(
                         selected = false,
-                        onClick = { navController.navigate("order")  },
-                        icon = { Icon(Icons.Filled.Build, contentDescription = "build") }
+                        onClick = { navController.navigate("order") },
+                        icon = { Icon(Icons.Filled.Build, contentDescription = "build") },
                     )
                 }
-            }
-        ) { paddingvalues->
+            },
+        ) { paddingvalues ->
             NavHost(navController = navController, startDestination = "usedCar") {
-                composable("usedCar"){
-                    UsedCarItineraryList(paddingvalues.calculateTopPadding(),navController=navController)
+                composable("usedCar") {
+                    UsedCarItineraryList(paddingvalues.calculateTopPadding(), navController = navController)
                 }
-                composable("order"){
+                composable("order") {
                     OrderItineraryList(
                         topPadding = paddingvalues.calculateTopPadding(),
-                        navController = navController
+                        navController = navController,
                     )
                 }
             }
         }
     }
 }
-
-

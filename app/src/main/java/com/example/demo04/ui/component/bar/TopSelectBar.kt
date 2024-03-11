@@ -1,3 +1,4 @@
+@file:Suppress ("ktlint:standard:function-naming")
 package com.example.demo04.ui.component.bar
 
 import androidx.compose.foundation.border
@@ -15,16 +16,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TopSelectBar(
-    topPadding: Dp,
-) {
-    Row (
+fun TopSelectBar(topPadding: Dp) {
+    Row(
         horizontalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(44.dp)
-            .padding(top = topPadding)
-            .border(1.dp, Color.Green, RectangleShape)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(44.dp)
+                .padding(top = topPadding)
+                .border(1.dp, Color.Green, RectangleShape),
     ) {
         Text(text = "上门预约")
         Text(text = "到店预约")

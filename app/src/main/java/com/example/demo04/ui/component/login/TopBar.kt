@@ -1,3 +1,5 @@
+@file: Suppress("ktlint:standard:function-naming")
+
 package com.example.demo04.ui.component.login
 
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
@@ -24,15 +27,17 @@ fun TopBar(
     onNavigationIconClick: () -> Unit = {},
 ) {
     TopAppBar(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 24.dp),
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.White
-        ),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .heightIn(min = 24.dp),
+        colors =
+            TopAppBarDefaults.topAppBarColors(
+                containerColor = Color.White,
+            ),
         navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
-                Icon(Icons.Filled.KeyboardArrowLeft,null)
+                Icon(Icons.Filled.KeyboardArrowLeft, null)
             }
         },
         title = {
@@ -44,6 +49,6 @@ fun TopBar(
         },
         actions = {
             // 如果有需要，可以添加右侧操作按钮
-        }
+        },
     )
 }

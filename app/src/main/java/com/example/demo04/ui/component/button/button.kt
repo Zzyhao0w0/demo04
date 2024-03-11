@@ -1,4 +1,4 @@
-package com.example.demo04.ui.component.button
+@file:Suppress ("ktlint:standard:function-naming") package com.example.demo04.ui.component.button
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -35,7 +35,7 @@ fun Button(
     enable: Boolean = true,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    content: @Composable RowScope.() -> Unit
+    content: @Composable RowScope.() -> Unit,
 ) {
     Surface(
         onClick = onClick, // 点击事件
@@ -43,18 +43,18 @@ fun Button(
         enabled = enable,
         color = Color(0xFF1D6FE9),
         shape = RoundedCornerShape(size = 8.dp),
-        interactionSource = interactionSource
+        interactionSource = interactionSource,
     ) {
-        Row (
+        Row(
             Modifier
                 .defaultMinSize(
                     minWidth = ButtonDefaults.MinWidth,
-                    minHeight = ButtonDefaults.MinHeight
+                    minHeight = ButtonDefaults.MinHeight,
                 )
                 .padding(contentPadding),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
-            content = content
+            content = content,
         )
     }
 }
@@ -66,7 +66,7 @@ fun HollowButton(
     enable: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
-    content: @Composable RowScope.() -> Unit
+    content: @Composable RowScope.() -> Unit,
 ) {
     Surface(
         onClick = onClick, // 点击事件
@@ -75,18 +75,18 @@ fun HollowButton(
         color = Color.Transparent,
         shape = RoundedCornerShape(size = 8.dp),
         border = BorderStroke(1.dp, Color(0xFF1D6FE9)),
-        interactionSource = interactionSource
+        interactionSource = interactionSource,
     ) {
-        Row (
+        Row(
             Modifier
                 .defaultMinSize(
                     minWidth = ButtonDefaults.MinWidth,
-                    minHeight = ButtonDefaults.MinHeight
+                    minHeight = ButtonDefaults.MinHeight,
                 )
                 .padding(contentPadding),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
-            content = content
+            content = content,
         )
     }
 }
@@ -94,17 +94,21 @@ fun HollowButton(
 @Preview
 @Composable
 fun HollowButtonPrev() {
-    HollowButton(onClick = {},
-        modifier = Modifier
-            .widthIn(min = 343.dp)) {
+    HollowButton(
+        onClick = {},
+        modifier =
+            Modifier
+                .widthIn(min = 343.dp),
+    ) {
         Text(
             text = "联系车主",
-            style = TextStyle(
-                fontSize = 16.sp,
-                fontWeight = FontWeight(400),
-                color = Color(0xFF1D6FE9),
-                textAlign = TextAlign.Center
-            )
+            style =
+                TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight(400),
+                    color = Color(0xFF1D6FE9),
+                    textAlign = TextAlign.Center,
+                ),
         )
     }
 }
@@ -114,17 +118,19 @@ fun HollowButtonPrev() {
 fun ButtonPreview() {
     Button(
         onClick = {},
-        modifier = Modifier
-            .widthIn(min = 343.dp)
-    ){
+        modifier =
+            Modifier
+                .widthIn(min = 343.dp),
+    ) {
         Text(
             text = "登录",
-            style = TextStyle(
-                fontSize = 16.sp,
-                fontWeight = FontWeight(400),
-                color = Color(0xFFFFFFFF),
-                textAlign = TextAlign.Center
-            )
+            style =
+                TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight(400),
+                    color = Color(0xFFFFFFFF),
+                    textAlign = TextAlign.Center,
+                ),
         )
     }
 }
